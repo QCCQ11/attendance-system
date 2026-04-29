@@ -1,37 +1,30 @@
 package com.example.attendance.entity;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "user")
 public class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(unique = true, nullable = false)
     private String username;
+
+    @Column(nullable = false)
     private String password;
+
     private String role;
     private String name;
-    private String studentId;
-    private String teacherId;
     private String email;
     private String phone;
+    private String studentId;
+    private String teacherId;
     private Integer status;
-    private String lastLogin;
 
-    // 无参构造
     public User() {}
-
-    // 有参构造（可选）
-    public User(Long id, String username, String password, String role, String name,
-                String studentId, String teacherId, String email, String phone,
-                Integer status, String lastLogin) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
-        this.role = role;
-        this.name = name;
-        this.studentId = studentId;
-        this.teacherId = teacherId;
-        this.email = email;
-        this.phone = phone;
-        this.status = status;
-        this.lastLogin = lastLogin;
-    }
 
     // Getter 和 Setter
     public Long getId() { return id; }
@@ -49,21 +42,18 @@ public class User {
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
 
-    public String getStudentId() { return studentId; }
-    public void setStudentId(String studentId) { this.studentId = studentId; }
-
-    public String getTeacherId() { return teacherId; }
-    public void setTeacherId(String teacherId) { this.teacherId = teacherId; }
-
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
 
     public String getPhone() { return phone; }
     public void setPhone(String phone) { this.phone = phone; }
 
+    public String getStudentId() { return studentId; }
+    public void setStudentId(String studentId) { this.studentId = studentId; }
+
+    public String getTeacherId() { return teacherId; }
+    public void setTeacherId(String teacherId) { this.teacherId = teacherId; }
+
     public Integer getStatus() { return status; }
     public void setStatus(Integer status) { this.status = status; }
-
-    public String getLastLogin() { return lastLogin; }
-    public void setLastLogin(String lastLogin) { this.lastLogin = lastLogin; }
 }
