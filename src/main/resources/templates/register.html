@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>注册 | 考勤系统</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: "Noto Sans JP", "Segoe UI", sans-serif;
+            background-image: url("/bg-library.jpg");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-color: rgba(44, 66, 87, 0.6);
+            background-blend-mode: multiply;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .register-card {
+            background: rgba(248, 243, 230, 0.92);
+            width: 100%;
+            max-width: 480px;
+            border-radius: 20px;
+            padding: 48px 40px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+            backdrop-filter: blur(6px);
+            animation: fadeIn 0.4s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .logo {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        .logo h1 {
+            font-size: 28px;
+            color: #2C4257;
+            font-weight: 600;
+        }
+        .logo p {
+            color: #5A6B7C;
+            margin-top: 6px;
+            font-size: 14px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #2C4257;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        input, select {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid #D1C9B8;
+            border-radius: 12px;
+            font-size: 15px;
+            background: rgba(255,251,245,0.85);
+            transition: all 0.2s;
+        }
+        input:focus, select:focus {
+            outline: none;
+            border-color: #2C4257;
+            box-shadow: 0 0 0 3px rgba(44, 66, 87, 0.15);
+        }
+        .btn {
+            width: 100%;
+            padding: 15px;
+            background: #2C4257;
+            color: #F8F3E6;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 10px;
+        }
+        .btn:hover {
+            background: #3A536B;
+            transform: translateY(-2px);
+        }
+        .error {
+            background: #F4E4E4;
+            color: #9D4B4B;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 28px;
+            color: #5A6B7C;
+            font-size: 14px;
+        }
+        .footer a {
+            color: #2C4257;
+            font-weight: 600;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+<div class="register-card">
+    <div class="logo">
+        <h1>📝 账号注册</h1>
+        <p>开启简约考勤体验</p>
+    </div>
+
+    <div th:if="${errorMsg}" th:text="${errorMsg}" class="error"></div>
+
+    <form action="/register" method="post">
+        <div class="form-group">
+            <label>用户名</label>
+            <input type="text" name="username" th:value="${username}" placeholder="设置用户名" required>
+        </div>
+        <div class="form-group">
+            <label>密码</label>
+            <input type="password" name="password" placeholder="设置密码" required>
+        </div>
+        <div class="form-group">
+            <label>确认密码</label>
+            <input type="password" name="confirmPassword" placeholder="再次输入密码" required>
+        </div>
+        <div class="form-group">
+            <label>真实姓名</label>
+            <input type="text" name="name" th:value="${name}" placeholder="请输入真实姓名">
+        </div>
+        <div class="form-group">
+            <label>角色</label>
+            <select name="role">
+                <option value="STUDENT">学生</option>
+                <option value="TEACHER">教师</option>
+            </select>
+        </div>
+        <button class="btn" type="submit">完成注册</button>
+    </form>
+
+    <div class="footer">
+        已有账号？<a th:href="@{/login}">返回登录</a>
+    </div>
+</div>
+</body>
+</html>

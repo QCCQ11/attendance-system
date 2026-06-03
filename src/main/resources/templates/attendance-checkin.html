@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>考勤打卡</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.0/css/bootstrap.min.css}">
+    <style>
+        body {
+            background-image: url("/bg-library.jpg");
+            background-size: cover;
+            background-attachment: fixed;
+            background-color: rgba(44, 66, 87, 0.45);
+            background-blend-mode: multiply;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .card {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #F8F3E6;
+            border-radius: 24px;
+            overflow: hidden;
+        }
+        .card-header {
+            background: #2C4257;
+            color: #F8F3E6;
+            padding: 1rem 1.5rem;
+            font-size: 1.3rem;
+        }
+        .btn-submit {
+            background: #2C4257;
+            color: #F8F3E6;
+            border-radius: 30px;
+            padding: 8px 25px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="card">
+        <div class="card-header">📅 考勤打卡</div>
+        <div class="card-body p-4">
+            <div th:if="${successMsg}" class="alert alert-success" th:text="${successMsg}"></div>
+            <div th:if="${errorMsg}" class="alert alert-danger" th:text="${errorMsg}"></div>
+            <form th:action="@{/attendance/checkIn}" method="post">
+                <div class="mb-3">
+                    <label class="form-label">选择课程</label>
+                    <select class="form-select" name="courseId" required>
+                        <option value="">请选择课程</option>
+                        <option th:each="course : ${courses}" th:value="${course.id}" th:text="${course.courseName} + ' - ' + ${course.className}"></option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">打卡时间</label>
+                    <input type="text" class="form-control" th:value="${#temporals.format(#temporals.createNow(), 'yyyy-MM-dd HH:mm:ss')}" readonly>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">备注</label>
+                    <textarea class="form-control" name="remark" rows="3" placeholder="选填"></textarea>
+                </div>
+                <button type="submit" class="btn btn-submit">✅ 提交打卡</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

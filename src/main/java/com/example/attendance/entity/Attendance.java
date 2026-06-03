@@ -15,6 +15,12 @@ public class Attendance {
     @Column(name = "student_id", nullable = false, length = 20)
     private String studentId;
 
+    @Column(name = "student_name", length = 50)
+    private String studentName;
+
+    @Column(name = "course_id")
+    private Integer courseId;
+
     @Column(name = "course_name", length = 100)
     private String courseName;
 
@@ -33,6 +39,12 @@ public class Attendance {
     @Column(name = "record_time")
     private LocalDateTime recordTime;
 
+    @Column(length = 500)
+    private String remark;
+
+    @Column(name = "create_time")
+    private LocalDateTime createTime;
+
     public Attendance() {}
 
     // Getter 和 Setter
@@ -41,6 +53,12 @@ public class Attendance {
 
     public String getStudentId() { return studentId; }
     public void setStudentId(String studentId) { this.studentId = studentId; }
+
+    public String getStudentName() { return studentName; }
+    public void setStudentName(String studentName) { this.studentName = studentName; }
+
+    public Integer getCourseId() { return courseId; }
+    public void setCourseId(Integer courseId) { this.courseId = courseId; }
 
     public String getCourseName() { return courseName; }
     public void setCourseName(String courseName) { this.courseName = courseName; }
@@ -59,4 +77,10 @@ public class Attendance {
 
     public LocalDateTime getRecordTime() { return recordTime; }
     public void setRecordTime(LocalDateTime recordTime) { this.recordTime = recordTime; }
+
+    public String getRemark() { return remark; }
+    public void setRemark(String remark) { this.remark = remark; }
+
+    public LocalDateTime getCreateTime() { return createTime; }
+    public void setCreateTime(LocalDateTime createTime) { this.createTime = createTime; }
 }

@@ -14,4 +14,12 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
     List<Student> findByClassName(String className);
 
     List<Student> findByNameContaining(String keyword);
+
+    // 排序方法
+    List<Student> findAllByOrderByIdAsc();
+    List<Student> findAllByOrderByIdDesc();
+    List<Student> findAllByOrderByStudentIdAsc();
+    List<Student> findAllByOrderByStudentIdDesc();
+    List<Student> findAllByOrderByNameAsc();
+    List<Student> findAllByOrderByNameDesc();
 }

@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>学生列表</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.0/css/bootstrap.min.css}">
+    <style>
+        body {
+            background-image: url("/bg-library.jpg");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-color: rgba(44, 66, 87, 0.45);
+            background-blend-mode: multiply;
+            min-height: 100vh;
+            padding: 40px 20px;
+            margin: 0;
+        }
+        .card-custom {
+            background-color: #F8F3E6;
+            border-radius: 28px;
+            box-shadow: 0 18px 32px -6px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+        }
+        .card-header-custom {
+            background-color: #2C4257;
+            padding: 1rem 2rem;
+            border-bottom: none;
+        }
+        .card-header-custom h2 {
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #F8F3E6;
+        }
+
+        .btn-add, .btn-delete-batch, .btn-edit, .btn-delete, .btn-checkin {
+            text-decoration: none !important;
+        }
+        .btn-add, .btn-delete-batch, .btn-checkin {
+            background-color: #2C4257;
+            color: #F8F3E6;
+            border: none;
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-weight: 500;
+            transition: 0.2s;
+        }
+        .btn-checkin {
+            background-color: #28a745;
+            margin-right: 8px;
+        }
+        .btn-checkin:hover {
+            background-color: #1f8a3a;
+        }
+        .btn-add:hover, .btn-delete-batch:hover {
+            background-color: #1f3142;
+            color: #F8F3E6;
+        }
+        .search-bar {
+            padding: 12px 20px;
+            background: #EAE3D4;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .search-bar input, .search-bar select {
+            width: auto;
+            min-width: 150px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 30px;
+            padding: 6px 15px;
+        }
+        .table-custom {
+            width: 100%;
+            background-color: #F8F3E6;
+            margin-bottom: 0;
+            color: #2C4257;
+        }
+        .table-custom th {
+            padding: 14px 12px;
+            font-weight: 600;
+            background-color: #2C4257;
+            color: #F8F3E6;
+            border: none;
+        }
+        .table-custom td {
+            padding: 12px;
+            vertical-align: middle;
+            border-bottom: 1px solid #EAE3D4;
+            color: #2C4257;
+            background-color: #F8F3E6;
+        }
+        .table-custom tbody tr:nth-child(odd) td {
+            background-color: #EAE3D4;
+        }
+        .table-custom tr:hover td {
+            background-color: #d4cbb8 !important;
+        }
+        .btn-edit, .btn-delete {
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            margin-right: 6px;
+            display: inline-block;
+        }
+        .btn-edit {
+            background-color: #2C4257;
+            color: #F8F3E6;
+        }
+        .btn-edit:hover {
+            background-color: #1f3142;
+            color: #F8F3E6;
+        }
+        .btn-delete {
+            background-color: #b1624b;
+            color: #F8F3E6;
+        }
+        .btn-delete:hover {
+            background-color: #8e4a37;
+            color: #F8F3E6;
+        }
+        .sort-link {
+            color: #F8F3E6;
+            text-decoration: none;
+            margin-left: 8px;
+            font-size: 0.8rem;
+            font-weight: normal;
+        }
+        .sort-link:hover {
+            color: #FFE4B5;
+        }
+        .checkbox-col {
+            width: 40px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="card-custom">
+        <div class="card-header-custom d-flex justify-content-between align-items-center">
+            <h2>📋 学生信息列表</h2>
+            <div>
+                <a th:href="@{/attendance/checkIn}" class="btn-checkin">📅 考勤打卡</a>
+                <button class="btn-delete-batch" id="batchDeleteBtn">🗑️ 批量删除</button>
+                <a th:href="@{/student/add}" class="btn-add ms-2">➕ 新增学生</a>
+            </div>
+        </div>
+
+        <div class="search-bar">
+            <input type="text" id="searchKeyword" placeholder="按姓名/学号搜索" class="form-control d-inline-block w-auto">
+            <button class="btn-add" id="searchBtn">🔍 搜索</button>
+            <a th:href="@{/student/list}" class="btn-add">🔄 重置</a>
+        </div>
+
+        <div class="card-body-custom">
+            <table class="table table-custom">
+                <thead>
+                <tr>
+                    <th class="checkbox-col"><input type="checkbox" id="selectAll"></th>
+                    <th>ID <a th:href="@{/student/list(sort='id', direction='asc')}" class="sort-link">↑</a> <a th:href="@{/student/list(sort='id', direction='desc')}" class="sort-link">↓</a></th>
+                    <th>学号 <a th:href="@{/student/list(sort='studentId', direction='asc')}" class="sort-link">↑</a> <a th:href="@{/student/list(sort='studentId', direction='desc')}" class="sort-link">↓</a></th>
+                    <th>姓名 <a th:href="@{/student/list(sort='name', direction='asc')}" class="sort-link">↑</a> <a th:href="@{/student/list(sort='name', direction='desc')}" class="sort-link">↓</a></th>
+                    <th>班级</th>
+                    <th>性别</th>
+                    <th>电话</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody id="studentTableBody">
+                <!-- 修复：正确循环 + 非空判断 -->
+                <tr th:each="student : ${students}" th:if="${student != null}" th:data-id="${student.id}">
+                    <td class="checkbox-col"><input type="checkbox" class="studentCheckbox" th:value="${student.id}"></td>
+                    <td th:text="${student.id}">1</td>
+                    <td th:text="${student.studentId}">2024001</td>
+                    <td th:text="${student.name}">测试学生</td>
+                    <td th:text="${student.className}">计科1班</td>
+                    <td th:text="${student.gender}">男</td>
+                    <td th:text="${student.phone}">13800138000</td>
+                    <td>
+                        <!-- 修复：按钮放在正确的 td 内 -->
+                        <a th:href="@{/student/edit/{id}(id=${student.id})}" class="btn-edit">修改</a>
+                        <a href="#" class="btn-delete single-delete" th:data-id="${student.id}">删除</a>
+                    </td>
+                </tr>
+
+                <tr th:if="${#lists.isEmpty(students)}">
+                    <td colspan="8" class="text-center py-4">暂无学生数据</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    const searchBtn = document.getElementById('searchBtn');
+    const searchInput = document.getElementById('searchKeyword');
+    const tbody = document.getElementById('studentTableBody');
+    const selectAll = document.getElementById('selectAll');
+    const batchDeleteBtn = document.getElementById('batchDeleteBtn');
+
+    if (searchBtn) {
+        searchBtn.addEventListener('click', function() {
+            const keyword = searchInput.value.trim().toLowerCase();
+            const rows = tbody.querySelectorAll('tr');
+            rows.forEach(row => {
+                if (row.querySelector('td[colspan]')) return;
+                const studentId = row.cells[2]?.innerText.toLowerCase() || '';
+                const name = row.cells[3]?.innerText.toLowerCase() || '';
+                if (studentId.includes(keyword) || name.includes(keyword)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    }
+
+    if (selectAll) {
+        selectAll.addEventListener('change', function() {
+            document.querySelectorAll('.studentCheckbox').forEach(cb => cb.checked = selectAll.checked);
+        });
+    }
+
+    if (batchDeleteBtn) {
+        batchDeleteBtn.addEventListener('click', function() {
+            const checkedIds = [];
+            document.querySelectorAll('.studentCheckbox:checked').forEach(cb => checkedIds.push(cb.value));
+            if (checkedIds.length === 0) {
+                alert('请至少选择一条记录');
+                return;
+            }
+            if (confirm(`确定要删除选中的 ${checkedIds.length} 条学生记录吗？`)) {
+                fetch(`/student/batchDelete?ids=${checkedIds.join(',')}`, { method: 'DELETE' })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.code === 200) {
+                            alert('删除成功');
+                            location.reload();
+                        } else {
+                            alert('删除失败：' + data.message);
+                        }
+                    });
+            }
+        });
+    }
+
+    document.querySelectorAll('.single-delete').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const id = this.getAttribute('data-id');
+            if (confirm('确定删除该学生吗？')) {
+                fetch(`/student/delete/${id}`, { method: 'DELETE' })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.code === 200) location.reload();
+                        else alert('删除失败');
+                    });
+            }
+        });
+    });
+</script>
+</body>
+</html>

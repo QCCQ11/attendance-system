@@ -9,8 +9,9 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new AuthInterceptor())
-                .addPathPatterns("/**")  // 拦截所有请求
-                .excludePathPatterns("/user/login", "/user/register");  // 排除登录和注册
+        // 临时注释掉，测试页面是否能访问
+        // registry.addInterceptor(new AuthInterceptor())
+        //         .addPathPatterns("/**")
+        //         .excludePathPatterns("/user/login", "/user/register", "/login", "/register", "/students");
     }
 }

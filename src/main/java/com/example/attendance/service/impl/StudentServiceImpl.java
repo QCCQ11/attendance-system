@@ -20,6 +20,11 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    public Student update(Student student) {
+        return studentRepository.save(student);
+    }
+
+    @Override
     public Student findById(Long id) {
         return studentRepository.findById(id).orElse(null);
     }
@@ -42,5 +47,35 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public void deleteById(Long id) {
         studentRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Student> findAllOrderByIdAsc() {
+        return studentRepository.findAllByOrderByIdAsc();
+    }
+
+    @Override
+    public List<Student> findAllOrderByIdDesc() {
+        return studentRepository.findAllByOrderByIdDesc();
+    }
+
+    @Override
+    public List<Student> findAllOrderByStudentIdAsc() {
+        return studentRepository.findAllByOrderByStudentIdAsc();
+    }
+
+    @Override
+    public List<Student> findAllOrderByStudentIdDesc() {
+        return studentRepository.findAllByOrderByStudentIdDesc();
+    }
+
+    @Override
+    public List<Student> findAllOrderByNameAsc() {
+        return studentRepository.findAllByOrderByNameAsc();
+    }
+
+    @Override
+    public List<Student> findAllOrderByNameDesc() {
+        return studentRepository.findAllByOrderByNameDesc();
     }
 }
